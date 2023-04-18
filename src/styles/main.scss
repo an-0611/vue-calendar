@@ -1,0 +1,36 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  color: #3a3a3a;
+  background-color: #efefee;
+  font-size: 100px;
+  height: 100vh;
+  // @include rwd($lg) {
+  //   font-size: calc(100vw / 1334 * 80);
+  // }
+  // @include rwd($md) {
+  //   font-size: calc(100vw / 1000 * 80);
+  // }
+  @include rwd($sm) {
+    font-size: calc(100vw / 800 * 110);
+  }
+  body {
+    @include fullsize();
+  }
+  a {
+    text-decoration: none;
+  }
+  img {
+    width: 100%;
+  }
+  input {
+    &::-webkit-input-placeholder {
+      line-height: normal !important;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@mixin fullsize() {
+  width: 100%;
+  height: 100%;
+}
+
+/* media query */
+@mixin rwd($deviceSize) {
+  @media screen and (max-width: #{$deviceSize}px) {
+    @content;
+  }
+}
+
+@mixin position(
+  $pos,
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null,
+  $z-index: null
+) {
+  position: $pos;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  z-index: $z-index;
+}
+
+@mixin ellipsis($e: n) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $e;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  display: -webkit-box;
+  word-break: break-all;
+}
+
+@mixin flexAlignCenter() {
+  display: flex;
+  align-items: center;
+}
