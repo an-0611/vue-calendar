@@ -12,7 +12,7 @@ const productStore = useProduct();
 const { initEvent } = productStore;
 
 onMounted(() => {
-  initEvent();
+  // initEvent();
 });
 </script>
 
