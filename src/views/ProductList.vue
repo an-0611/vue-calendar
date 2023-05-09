@@ -45,6 +45,14 @@ import utils from "@/utils";
 
 // const productStore = useProduct();
 // const { categories, products } = storeToRefs(productStore);
+
+console.log(document.querySelector("#calendar")); // null, 這時沒抓不到實體, 以及這時就要先綁定 data key
+// 照目前寫法先執行 new Calendar 觸發 isValidDom 就會失敗 (下一版調整成先宣告 data, onMounted 在賦值給 ins, 就可以檢查到 #calendar dom)
+onMounted(() => {
+  console.log(document.querySelector("#calendar")); // 有
+  // 若在 onMounted 內宣告變數無法在 template 用, 但如果在 onMounted 前先宣告, 在 onMounted 內賦值就可以
+});
+
 type dateType = { date: string; DD: string; price: number };
 
 class Calendar {
@@ -55,7 +63,7 @@ class Calendar {
   weekdays: string[];
   calendarData: dateType[][]; // 已經拆成一個個 row
   constructor(
-    // domName: string,
+    domName: string,
     initData: dateType[],
     firstDay: string,
     options: {
@@ -78,12 +86,16 @@ class Calendar {
           "Saturday",
         ];
     this.calendarData = [];
+    // this.isValidDom(domName);
     this.init();
   }
 
   isValidDom(domName: string) {
     if (!domName) throw new Error("select dom first");
+    console.log(domName);
+    console.log(document.querySelector("#calendar"));
     const dom = document.querySelector(domName);
+    console.log(dom);
     const result =
       typeof HTMLElement === "object"
         ? dom instanceof HTMLElement
@@ -222,7 +234,6 @@ class Calendar {
   }
 
   init() {
-    // this.isValidDom(domName);
     // firstWeekPart => 找到第一天是星期幾 用以判斷第一列該顯示幾天
     const firstWeekPart = this.generateFirstWeekPart(this.firstDay);
     // const firstWeekPart = firstPartHash[weekdays[weekdayIndex]]; // 1
