@@ -15,22 +15,24 @@
           }}</span>
         </slot>
       </div>
-      <div class="head-row">
+      <div class="weekend-name-row">
         <div class="col" v-for="h in hData">{{ h }}</div>
       </div>
-      <div class="content-row" v-for="c in cData">
-        <div
-          :class="[
-            'col',
-            { able: day !== null, 'is-holiday': i == 0 || i == 6 },
-          ]"
-          v-for="(day, i) in c"
-          @click="clickDate(day)"
-        >
-          <span v-if="day">
-            <div class="date">{{ day.DD }}</div>
-            <div class="price">${{ utils.addCommas(day.price) }}</div>
-          </span>
+      <div class="content-row-container">
+        <div class="content-row" v-for="c in cData">
+          <div
+            :class="[
+              'col',
+              { able: day !== null, 'is-holiday': i == 0 || i == 6 },
+            ]"
+            v-for="(day, i) in c"
+            @click="clickDate(day)"
+          >
+            <span v-if="day">
+              <div class="date">{{ day.DD }}</div>
+              <div class="price">${{ utils.addCommas(day.price) }}</div>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -346,6 +348,15 @@ const clickDate = (day: any) => {
   // Object.assign(user, newUser);
   // user.value = { ...day.value, ...newUser };
 };
+
+// todo
+// (1) 六列外框
+// (2) 傳入自定義 data  type 不要寫死 可以從外面定義 typescript
+// (3) Clicked day 需 keep 住狀態 記得點了哪個日期
+// (4) dateType 改泛型 Ｔ 應該能解決
+// (5) 自定義 calendar 寬高
+// (6) + prop;
+// (7) 變數重新命名
 </script>
 
 <style lang="scss" scoped>
@@ -382,8 +393,8 @@ const clickDate = (day: any) => {
       cursor: pointer;
     }
   }
-  .head-row,
-  .content-row {
+  .weekend-name-row,
+  .content-row-container .content-row {
     @include flexAlignCenter();
     justify-content: space-around;
 
@@ -404,29 +415,35 @@ const clickDate = (day: any) => {
       }
     }
   }
-  .head-row {
+  .weekend-name-row {
     .col {
       min-width: 0.5rem;
       height: 0.4rem;
     }
   }
-  .content-row {
-    .col {
-      height: 0.7rem;
-      pointer-events: none;
-      &.able {
-        pointer-events: visible;
-        cursor: pointer;
-        &:hover {
-          background: #afafad;
-          transition: 0.3s all;
-          .date {
-            color: green;
+  .content-row-container {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 4.2rem;
+    .content-row {
+      .col {
+        height: 0.7rem;
+        pointer-events: none;
+        &.able {
+          pointer-events: visible;
+          cursor: pointer;
+          &:hover {
+            background: #afafad;
+            transition: 0.3s all;
+            .date {
+              color: green;
+            }
           }
         }
-      }
-      &.is-holiday {
-        background: #eff8ff;
+        &.is-holiday {
+          background: #eff8ff;
+        }
       }
     }
   }
